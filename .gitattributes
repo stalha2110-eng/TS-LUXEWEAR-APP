@@ -1,0 +1,4 @@
+# Treat all jar files as binary to prevent corruption from line-ending translations
+*.jar binary
+gradlew text eol=lf
+gradlew.bat text eol=crlf
