@@ -14,9 +14,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: set up JDK 17
       uses: actions/setup-java@v4
-          with:
-        java-version: '17'
-        distribution: 'temurin'
+      with:
+          java-version: '17'
+          distribution: 'temurin'
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
