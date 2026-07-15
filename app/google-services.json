@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "197538603551",
+    "project_id": "ts-luxewear-8b7b4",
+    "storage_bucket": "ts-luxewear-8b7b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197538603551:android:b4b9283b3ddaed832e6b2a",
+        "android_client_info": {
+          "package_name": "com.aistudio.luxewear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCO576csDQJac2-ykPXjYMBoJJ3ru6Egk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

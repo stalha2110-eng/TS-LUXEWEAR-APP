@@ -1,0 +1,6 @@
+{
+  "name": "TS LuxeWear",
+  "description": "Multi-store women's fashion platform supporting multitenant boutiques, customer catalogs, WhatsApp order flow, and dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
