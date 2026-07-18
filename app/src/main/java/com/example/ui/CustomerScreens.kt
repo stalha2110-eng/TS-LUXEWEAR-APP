@@ -247,7 +247,15 @@ fun CustomerDashboardScreen(
     }
     val coroutineScope = rememberCoroutineScope()
 
+    val activeUserState by AuthManager.currentUserFlow.collectAsState()
     var selectedStoreId by remember { mutableStateOf<String?>(null) }
+    
+    LaunchedEffect(activeUserState) {
+        if (activeUserState?.tenantStoreId != null) {
+            selectedStoreId = activeUserState?.tenantStoreId
+        }
+    }
+    
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("All") }
     var selectedSortOption by remember { mutableStateOf(ProductSortOption.POPULARITY) }

@@ -15,7 +15,8 @@ data class AuthUser(
     val uid: String,
     val email: String,
     val displayName: String,
-    val role: UserRole
+    val role: UserRole,
+    val tenantStoreId: String? = null
 )
 
 object AuthManager {
@@ -47,6 +48,7 @@ object AuthManager {
         email: String,
         intendedRole: UserRole,
         adminPassword: String? = null,
+        tenantStoreId: String? = null,
         onError: (String) -> Unit
     ): Boolean {
         val emailClean = email.trim()
@@ -97,7 +99,8 @@ object AuthManager {
             uid = "fb_${emailClean.hashCode()}",
             email = emailClean,
             displayName = name,
-            role = role
+            role = role,
+            tenantStoreId = tenantStoreId
         )
         _currentUser.value = userObj
 
@@ -143,12 +146,13 @@ object AuthManager {
         return true
     }
 
-    fun continueAsGuest() {
+    fun continueAsGuest(tenantStoreId: String? = null) {
         _currentUser.value = AuthUser(
             uid = "guest_session",
             email = "guest@luxewear.com",
             displayName = "Guest User",
-            role = UserRole.GUEST
+            role = UserRole.GUEST,
+            tenantStoreId = tenantStoreId
         )
     }
 
