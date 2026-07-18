@@ -101,6 +101,32 @@ object AuthManager {
         )
         _currentUser.value = userObj
 
+        // Real Firebase Auth Integration for Multitenancy
+        if (FirebaseBackend.isRealFirebaseEnabled) {
+            try {
+                val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+                val password = adminPassword ?: "LuxeWear@2026"
+                auth.signInWithEmailAndPassword(emailClean, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            android.util.Log.d("AuthManager", "Firebase Auth Sign In successful: ${auth.currentUser?.uid}")
+                        } else {
+                            // If user is not yet created, sign them up
+                            auth.createUserWithEmailAndPassword(emailClean, password)
+                                .addOnCompleteListener { createCtx ->
+                                    if (createCtx.isSuccessful) {
+                                        android.util.Log.d("AuthManager", "Firebase Auth Account Created: ${auth.currentUser?.uid}")
+                                    } else {
+                                        android.util.Log.e("AuthManager", "Firebase Auth Sign Up failed: ${createCtx.exception?.message}")
+                                    }
+                                }
+                        }
+                    }
+            } catch (e: Exception) {
+                android.util.Log.e("AuthManager", "Failed to integrate Firebase Auth: ${e.message}")
+            }
+        }
+
         // Dispatch REALTIME "New login" audit alert to Super Admin
         if (role == UserRole.STORE_OWNER) {
             TSLuxeWearRepository.sendPushNotification(

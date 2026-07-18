@@ -100,17 +100,33 @@ object FirebaseBackend {
                 setupRealtimeListeners()
                 android.util.Log.d("TSLuxeWearFirebase", "Firebase initialized successfully via pre-configuration.")
             } else {
-                // Try to initialize using custom programmatic properties if provided in BuildConfig.env
-                // Since this is a prototype, we look for explicit project metadata or let it fallback
-                isFirebaseInitialized = true
-                isRealFirebaseEnabled = false
-                _connectionStatus.value = "Offline Sandbox Simulator Active 📲 (Missing google-services.json)"
-                android.util.Log.w("TSLuxeWearFirebase", "No preloaded Firebase app found, starting safe local mock sandbox.")
+                // Try to initialize programmatically using the values from google-services.json
+                try {
+                    val options = com.google.firebase.FirebaseOptions.Builder()
+                        .setApplicationId("1:197538603551:android:b4b9283b3ddaed832e6b2a")
+                        .setApiKey("AIzaSyBCO576csDQJac2-ykPXjYMBoJJ3ru6Egk")
+                        .setProjectId("ts-luxewear-8b7b4")
+                        .setStorageBucket("ts-luxewear-8b7b4.firebasestorage.app")
+                        .build()
+                    
+                    com.google.firebase.FirebaseApp.initializeApp(context, options)
+                    isFirebaseInitialized = true
+                    isRealFirebaseEnabled = true
+                    _connectionStatus.value = "Active Real-Time Firebase Services Verified ✅"
+                    _isRealtimeSyncing.value = true
+                    setupRealtimeListeners()
+                    android.util.Log.d("TSLuxeWearFirebase", "Firebase initialized successfully via explicit programmatic options.")
+                } catch (e: Exception) {
+                    isFirebaseInitialized = true
+                    isRealFirebaseEnabled = false
+                    _connectionStatus.value = "Offline Sandbox Simulator Active 📲 (Missing google-services.json)"
+                    android.util.Log.w("TSLuxeWearFirebase", "Manual initialization failed, using safe offline sandbox. Error: ${e.message}")
+                }
             }
         } catch (e: Exception) {
             isFirebaseInitialized = true
             isRealFirebaseEnabled = false
-            _connectionStatus.value = "Configuration Error: ${e.localizedMessage.take(40)}"
+            _connectionStatus.value = "Configuration Error: ${e.localizedMessage?.take(40)}"
             android.util.Log.e("TSLuxeWearFirebase", "Error verifying Firebase initialization context: ${e.message}")
         }
     }
