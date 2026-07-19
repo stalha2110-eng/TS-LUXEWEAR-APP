@@ -22,7 +22,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: 8.7
-        gradle-wrapper-checksums: 'a5e75118d96b4eac2100876f6af6a5ca5029cd440f87736425350fb4cf308b42'
+        gradle-wrapper-checksums: 'a5e75118d96b4eac2100876f6af6a5ca5029cd440f87736425350fb4cf308b42 gradle/wrapper/gradle-wrapper.jar'
 
     - name: Build with Gradle
       run: gradle assembleDebug
